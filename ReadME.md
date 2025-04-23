@@ -31,6 +31,6 @@ source venv/bin/activate
     pip install -r requirements.txt
 
 
-# To run dash app (Make sure venv is activated and you are in the projects directory (MLG382_Project1))
+# To run dash app (Make sure venv is activated and you are in the projects directory (Project2))
     python app.py
     
