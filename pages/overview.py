@@ -99,7 +99,7 @@ layout = html.Div([
                 html.Div([
                     html.A(
                         html.Button("Download PDF Report", className="btn btn-success btn-lg"),
-                        href="/assets/Project_Report.txt",
+                        href="/assets/Project_Report.pdf",
                         download="Report.pdf"
                     )
                 ], className="d-flex justify-content-center")
