@@ -3,6 +3,25 @@ from dash import html, dcc, dash_table
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
 import numpy as np
+import pandas as pd
+import plotly.express as px
+
+df = pd.read_excel("DataSet.xlsx")
+df = df[['CustomerID', 'Quantity', 'UnitPrice']]
+df.dropna(inplace=True)
+numeric_columns = df.select_dtypes(include='number').columns
+boxplots = []
+
+for col in numeric_columns:
+    fig = px.box(df, y=col, template="plotly_dark", title=f"Boxplot of {col}")
+    boxplots.append(fig)
+
+# 2. Correlation heatmap
+corr_fig = px.imshow(df.corr(),
+                     text_auto=True,
+                     color_continuous_scale='Blues',
+                     template="plotly_dark",
+                     title="Correlation Matrix")
 
 layout = html.Div([
     html.H1("📊 Model Analysis Dashboard", style={
@@ -11,7 +30,9 @@ layout = html.Div([
         "marginBottom": "40px",
         "fontWeight": "bold"
     }),
-
+    
+    
+    
     # Performance Table Section
     html.Div([
         html.H3("Performance Metrics", style={"color": "#ecf0f1", "marginBottom": "20px"}),
@@ -92,6 +113,7 @@ layout = html.Div([
                 )
             )
         )
+        
     ], style={
         "backgroundColor": "#2f3640",
         "padding": "25px",
@@ -114,12 +136,26 @@ layout = html.Div([
             )
         ),
 
+        html.Div([
+        html.H2("Boxplots of Numeric Columns"),
+        *[dcc.Graph(figure=fig) for fig in boxplots]
+    ]),
+
+    html.Div([
+        html.H2("Correlation Matrix"),
+        dcc.Graph(figure=corr_fig)
+    ]),
+
+
     ], style={
         "backgroundColor": "#2f3640",
         "padding": "25px",
         "borderRadius": "15px",
         "boxShadow": "0px 4px 20px rgba(0, 0, 0, 0.4)"
     })
+    
+    
+    
 ], style={
     "padding": "40px",
     "backgroundColor": "#1a1a1a",
@@ -127,3 +163,6 @@ layout = html.Div([
 })
 
 dash.register_page(__name__, path="/analysis")
+
+
+
