@@ -149,9 +149,14 @@ def make_prediction(n_clicks, model_name, f0, f1, f2, f3, f4):
         predicted_quantity = prediction[0] * 10
         if predicted_quantity < 0:
             predicted_quantity = abs(predicted_quantity)
+        
+        if predicted_quantity > 10:
+            message = "Restock needed"
+        else:
+            message = "Does not need a Restock"
 
         # Return the result as "Quantity Needed"
-        return f"✅ Quantity Needed: {predicted_quantity:.2f} units."
+        return f"✅ Quantity Needed: {predicted_quantity:.2f} units.\n{message}"
 
     except Exception as e:
         return f"❌ Error: {str(e)}"
